@@ -1,29 +1,41 @@
-# my-develop-plugin
+# Agent Plugins
 
-特定のプロジェクトに依存しない開発用スキルをまとめた Claude Code プラグインです。
+A collection of Claude Code plugins for development workflows.
 
-## 使い方
+## Plugins
 
-```bash
-/skill <skill-name> <task>
-```
+This repository contains the following plugins:
 
-## スキル
+### [owasp-security-review](./owasp-security-review)
 
-`skills/` 配下に開発向けのスキルを収録しています。
+Security review and implementation support based on OWASP Cheat Sheet Series. Covers XSS, SQL Injection, CSRF, authentication, authorization, and other security topics.
 
-### owasp-security-review
+### [skill-review](./skill-review)
 
-OWASP Cheat Sheet Series に基づくセキュリティレビューと実装支援を行います。
+Review Agent Skills for specification compliance and best practices.
 
-## 開発
+## Installation
 
-ローカルでの構成検証:
+Each plugin can be installed independently:
 
 ```bash
-claude plugin validate .
+# Install owasp-security-review
+claude plugin add ayuzaka/agent-plugins/owasp-security-review
+
+# Install skill-review
+claude plugin add ayuzaka/agent-plugins/skill-review
 ```
 
-## ライセンス
+## Development
+
+Validate plugin configuration:
+
+```bash
+# Validate individual plugin
+claude plugin validate ./owasp-security-review
+claude plugin validate ./skill-review
+```
+
+## License
 
 MIT

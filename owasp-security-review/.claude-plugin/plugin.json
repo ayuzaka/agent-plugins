@@ -1,0 +1,17 @@
+{
+  "name": "owasp-security-review",
+  "description": "",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": "https://github.com/ayuzaka/agent-plugins",
+  "homepage": "https://github.com/ayuzaka/agent-plugins",
+  "keywords": [
+    "claude-code",
+    "plugin",
+    "security"
+  ],
+  "author": {
+    "name": "ayuzaka"
+  }
+}
+
