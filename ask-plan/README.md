@@ -38,6 +38,7 @@ A Claude Code command that analyzes PLAN files and refines them through interact
 ## Installation
 
 ```bash
+/plugin marketplace add ayuzaka/agent-plugins
 /plugin install ask-plan@ayuzaka/agent-plugins
 ```
 

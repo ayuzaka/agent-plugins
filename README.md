@@ -20,6 +20,14 @@ A command that analyzes PLAN files and refines them through interactive question
 
 ## Installation
 
+First, add this repository as a marketplace:
+
+```bash
+/plugin marketplace add ayuzaka/agent-plugins
+```
+
+Then install the plugins you need:
+
 ```bash
 # Install owasp-security-review
 /plugin install owasp-security-review@ayuzaka/agent-plugins
