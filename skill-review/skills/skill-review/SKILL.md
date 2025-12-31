@@ -1,57 +1,57 @@
 ---
 name: skill-review
-description: Agent Skills のスキルレビューを行い、公式仕様への準拠とベストプラクティスの観点で指摘と改善案を提示する。スキルのレビュー依頼、SKILL.mdの品質確認、スキル構成の妥当性チェック、Agent Skills仕様への適合性評価の文脈で使用する。
+description: Review Agent Skills and provide findings and improvement suggestions from the perspective of official specification compliance and best practices. Use for skill review requests, SKILL.md quality checks, skill structure validation, and Agent Skills specification conformance evaluation.
 ---
 
 # Skill Review
 
-Agent Skills 仕様に基づいてスキルをレビューし、適合性と改善提案を提示する。
+Review skills based on the Agent Skills specification and provide conformance assessment and improvement suggestions.
 
 ## Review Workflow
 
-### 入力例
+### Input Examples
 
-- 「このスキルをレビューして」
-- 「SKILL.mdの仕様準拠を確認して」
+- "Review this skill"
+- "Check SKILL.md specification compliance"
 
-### 1. 依頼内容と対象を特定する
+### 1. Identify Request and Target
 
-- 対象スキルのルートディレクトリを確認する。
-- レビュー範囲（SKILL.mdのみ / scripts・references・assets含む）を明確にする。
+- Confirm the root directory of the target skill.
+- Clarify the review scope (SKILL.md only / including scripts, references, and assets).
 
-### 2. 公式仕様を参照してレビューする
+### 2. Review Against Official Specification
 
-- 常に https://agentskills.io/specification を根拠として参照する。
-- 指摘ごとに、該当するセクションへのリンク（Spec Link）を付与する。
-- 必要に応じて、仕様ページ内の見出しアンカーを用いる。
+- Always reference https://agentskills.io/specification as the authoritative source.
+- Include a link to the relevant section (Spec Link) for each finding.
+- Use heading anchors within the specification page as needed.
 
-### 3. 改善提案を作る
+### 3. Create Improvement Suggestions
 
-- 仕様違反は必ず指摘し、修正案を提示する。
-- ベストプラクティスに沿わない箇所は「理由」と「改善手順」を示す。
+- Always flag specification violations and provide remediation.
+- For items not following best practices, explain the reason and improvement steps.
 
 ## Output Format
 
 ```markdown
-## スキルレビュー概要
+## Skill Review Summary
 
-### 指摘事項
+### Findings
 
-#### [Severity: High/Medium/Low] タイトル
+#### [Severity: High/Medium/Low] Title
 - **Location**: path/to/file:line
-- **Issue**: 問題点の説明
-- **Spec/Rule**: 対応する仕様ポイント
+- **Issue**: Description of the problem
+- **Spec/Rule**: Corresponding specification point
 - **Spec Link**: https://agentskills.io/specification#section-id
-- **Recommendation**: 修正案
+- **Recommendation**: Remediation
 
-### 提案 (Optional)
-- 改善アイデアや運用上の提案
+### Suggestions (Optional)
+- Improvement ideas or operational recommendations
 
 ### OK (Optional)
-- 問題なし
+- No issues found
 ```
 
 ## Notes
 
-- 仕様準拠の指摘を最優先する。
-- 仕様違反がない場合でも、改善余地があれば提案する。
+- Prioritize specification compliance findings.
+- Even if there are no specification violations, suggest improvements where applicable.

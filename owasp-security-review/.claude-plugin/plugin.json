@@ -1,6 +1,6 @@
 {
   "name": "owasp-security-review",
-  "description": "",
+  "description": "Security review and implementation support based on OWASP Cheat Sheet Series",
   "version": "0.0.1",
   "license": "MIT",
   "repository": "https://github.com/ayuzaka/agent-plugins",

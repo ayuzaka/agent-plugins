@@ -1,6 +1,6 @@
 ---
 name: owasp-security-review
-description: OWASP Cheat Sheet Series に基づくセキュリティレビューと実装支援。コードレビュー依頼、セキュリティ関連の実装・調査、脆弱性チェック時に使用する。XSS, SQL Injection, CSRF, 認証認可などのセキュリティトピックを扱う。
+description: Security review and implementation support based on OWASP Cheat Sheet Series. Use for code review requests, security-related implementation/research, and vulnerability checks. Covers security topics such as XSS, SQL Injection, CSRF, and authentication/authorization.
 compatibility:
   os: [darwin, linux]
   requirements:
@@ -12,23 +12,23 @@ allowed-tools:
 
 # OWASP Security Review
 
-OWASP Cheat Sheet Series に基づいてコードのセキュリティレビューを行い、脆弱性の指摘と改善案を提示する。
+Perform code security reviews based on the OWASP Cheat Sheet Series, identifying vulnerabilities and providing remediation recommendations.
 
 ## Setup
 
-Cheat Sheet リポジトリが未取得の場合:
+If the Cheat Sheet repository has not been cloned:
 
 ```bash
 bash scripts/setup_cheatsheets.sh
 ```
 
-デフォルトで `~/.local/share/owasp-cheatsheets` に clone される。
+By default, it clones to `~/.local/share/owasp-cheatsheets`.
 
 ## Review Workflow
 
 ### 1. Identify Security Concerns
 
-コードから関連するセキュリティカテゴリを特定する:
+Identify relevant security categories from the code:
 
 | Code Pattern | OWASP Top 10 Category |
 |--------------|----------------------|
@@ -47,9 +47,9 @@ bash scripts/setup_cheatsheets.sh
 
 ### 2. Load Relevant Cheat Sheets
 
-[top10-mapping.md](references/top10-mapping.md) を参照し、該当する Cheat Sheet を特定する。
+Refer to [top10-mapping.md](references/top10-mapping.md) to identify the applicable Cheat Sheets.
 
-Cheat Sheet の読み込み:
+Load a Cheat Sheet:
 
 ```bash
 cat ~/.local/share/owasp-cheatsheets/cheatsheets/<CheatSheet_Name>.md
@@ -66,27 +66,27 @@ cat ~/.local/share/owasp-cheatsheets/cheatsheets/<CheatSheet_Name>.md
 
 #### [Severity: Critical/High/Medium/Low] Finding Title
 - **Location**: file:line
-- **Issue**: 問題の説明
+- **Issue**: Description of the problem
 - **OWASP Category**: A0X: Category Name
 - **Reference**: Cheat Sheet name
-- **Recommendation**: 改善案とコード例
+- **Recommendation**: Remediation with code examples
 ```
 
 #### Output Format for Implementation/Research
 
-Cheat Sheet の内容を踏まえた実装ガイドまたは調査結果を提示する。必ず根拠となる Cheat Sheet を明示する。
+Present implementation guidance or research findings based on Cheat Sheet content. Always cite the source Cheat Sheet.
 
 ## Quick Reference
 
 ### Common Vulnerabilities Checklist
 
-- [ ] SQL/NoSQL Injection: パラメータ化クエリの使用
-- [ ] XSS: 出力エンコーディング、CSP
-- [ ] CSRF: トークン検証
-- [ ] Authentication: 強力なパスワードポリシー、MFA
-- [ ] Session: セキュアな設定、適切な有効期限
-- [ ] Access Control: 認可チェックの一貫性
-- [ ] Secrets: ハードコードされた秘密情報
-- [ ] File Upload: ファイルタイプ検証、保存場所
-- [ ] Error Handling: 情報漏洩防止
-- [ ] Logging: 機密情報の除外
+- [ ] SQL/NoSQL Injection: Use parameterized queries
+- [ ] XSS: Output encoding, CSP
+- [ ] CSRF: Token validation
+- [ ] Authentication: Strong password policy, MFA
+- [ ] Session: Secure settings, appropriate expiration
+- [ ] Access Control: Consistent authorization checks
+- [ ] Secrets: No hardcoded secrets
+- [ ] File Upload: File type validation, storage location
+- [ ] Error Handling: Prevent information leakage
+- [ ] Logging: Exclude sensitive information

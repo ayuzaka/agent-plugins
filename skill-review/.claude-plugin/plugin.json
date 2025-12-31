@@ -1,6 +1,6 @@
 {
   "name": "skill-review",
-  "description": "",
+  "description": "Review Agent Skills for specification compliance and best practices",
   "version": "0.0.1",
   "license": "MIT",
   "repository": "https://github.com/ayuzaka/agent-plugins",
