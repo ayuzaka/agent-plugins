@@ -9,9 +9,27 @@
   },
   "plugins": [
     {
-      "name": "agent-plugins",
-      "source": "./",
-      "description": "A greeting plugin to learn the basics",
+      "name": "owasp-security-review",
+      "source": "./owasp-security-review",
+      "description": "Security review and implementation support based on OWASP Cheat Sheet Series",
+      "version": "0.0.1",
+      "author": {
+        "name": "ayuzaka"
+      }
+    },
+    {
+      "name": "skill-review",
+      "source": "./skill-review",
+      "description": "Review Agent Skills for specification compliance and best practices",
+      "version": "0.0.1",
+      "author": {
+        "name": "ayuzaka"
+      }
+    },
+    {
+      "name": "ask-plan",
+      "source": "./ask-plan",
+      "description": "Analyzes PLAN files and refines them through interactive questioning",
       "version": "0.0.1",
       "author": {
         "name": "ayuzaka"
