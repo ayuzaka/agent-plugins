@@ -1,10 +1,21 @@
 ---
-description: Analyze PLAN files and refine them through interactive questioning
+description: Review AI-generated PLAN files and clarify ambiguities with the user
 ---
 
 # Ask Plan Command
 
-A command that analyzes PLAN file contents, identifies ambiguities and unclear implementation details, conducts interactive questioning using `AskUserQuestionTool`, and immediately updates the PLAN file based on user responses.
+A command that instructs the AI Agent to review its own generated PLAN file, identify unclear points or assumptions, and ask the user for clarification using `AskUserQuestionTool`.
+
+## PURPOSE
+
+When an AI Agent creates a PLAN file, it may contain:
+
+- Assumptions made without explicit user confirmation
+- Ambiguous requirements that need clarification
+- Implementation decisions that should be validated
+- Missing details that only the user can provide
+
+This command triggers a self-review process where the AI Agent critically examines its own plan and proactively seeks user input on uncertain areas.
 
 ## TARGET FILE RESOLUTION
 
@@ -20,122 +31,124 @@ Identify the PLAN file using the following priority order:
    - Run during Plan mode: The current session's PLAN file will be auto-detected
    ```
 
-## ANALYSIS METHODOLOGY
+## SELF-REVIEW METHODOLOGY
 
-After reading the PLAN file, identify issues in the following categories:
+After reading the PLAN file you created, critically examine it for the following:
 
-### Category 1: Ambiguous Requirements
+### Category 1: Unvalidated Assumptions
 
-- Unclear feature descriptions
-- Missing acceptance criteria
-- Ambiguous terminology or expressions with multiple interpretations
-- Undefined success metrics
+- Requirements you interpreted without explicit user confirmation
+- Default choices you made (libraries, patterns, approaches)
+- Inferred user preferences or constraints
+- Scope boundaries you assumed
 
-### Category 2: Implementation Gaps
+### Category 2: Ambiguous Points
 
-- Undecided architecture decisions (patterns, libraries, etc.)
-- Unspecified technology choices
-- Unclear data structures or schemas
-- Missing error handling strategies
-- Undefined edge cases
+- Areas where you weren't certain of the user's intent
+- Multiple valid interpretations you chose between
+- Trade-offs you resolved without user input
+- Edge cases you handled based on assumptions
 
-### Category 3: Dependencies and Integration
+### Category 3: Missing Information
 
-- Unclear integration points with existing code
-- Missing dependency information
-- Unspecified API contracts
-- Unclear implementation step ordering
+- Details the user didn't specify but are needed for implementation
+- Configuration or environment-specific decisions
+- Integration points with external systems
+- Error handling and failure scenarios
 
-### Category 4: Scope and Boundaries
+### Category 4: Validation Needed
 
-- Unclear in/out of scope boundaries
-- Missing assumptions
-- Unspecified constraints (performance, security, compatibility)
+- Architectural decisions that significantly impact the project
+- Technology choices that may have alternatives the user prefers
+- Implementation approaches with different trade-offs
+- Priorities and ordering of tasks
 
 ## QUESTION GENERATION RULES
 
-Follow these rules when generating questions:
+When generating questions to ask the user:
 
-1. **Prioritize by impact**: Ask about issues that most significantly affect implementation first
-1. **Be specific**: Reference specific sections or phrases from the PLAN file
-1. **Provide options**: When asking about implementation choices, present 2-4 concrete options
-1. **Limit questions**: Restrict to 1-3 questions per round (avoid overwhelming the user)
+1. **Focus on uncertainty**: Only ask about things you genuinely need clarification on
+1. **Be honest about assumptions**: Explain what you assumed and why
+1. **Provide context**: Reference the specific part of the PLAN related to the question
+1. **Offer options**: Present the alternatives you considered with their trade-offs
+1. **Limit questions**: Restrict to 1-3 questions per round
 
 ### AskUserQuestionTool Format
 
 When creating questions, include the following elements:
 
-- **question**: A clear, specific question
-- **header**: A short label indicating the question category (max 12 characters)
-- **options**: 2-4 options, each with a label and description
+- **question**: A clear question explaining what you need clarified
+- **header**: A short label indicating the topic (max 12 characters)
+- **options**: 2-4 options including what you assumed (mark with "Current assumption")
 - **multiSelect**: Set to true when multiple selections are appropriate
 
 Example:
 
 ```md
-question: "Which storage method should we use for auth tokens?"
-header: "Auth Design"
+question: "In the PLAN, I assumed we'd use PostgreSQL for the database. Should I proceed with this choice?"
+header: "Database"
 options:
-  - label: "httpOnly Cookie"
-    description: "High XSS resistance, recommended for web apps"
-  - label: "localStorage"
-    description: "Simple but has XSS vulnerability risks"
-  - label: "sessionStorage"
-    description: "For per-tab session management"
+  - label: "PostgreSQL (Current assumption)"
+    description: "Robust, good for complex queries, widely supported"
+  - label: "MySQL"
+    description: "Simpler setup, good performance for read-heavy workloads"
+  - label: "SQLite"
+    description: "Lightweight, no server needed, good for small projects"
 ```
 
 ## PLAN UPDATE PROTOCOL
 
-After the user answers a question, update the PLAN file using these steps:
+After the user answers a question:
 
-1. **Parse the answer**: Extract decisions and clarifications
-1. **Identify update location**: Determine where this information belongs in the PLAN
-1. **Apply the update**: Integrate changes naturally with existing content
-1. **Save immediately**: Use Edit/Write tools to update the PLAN file instantly
-1. **Report the update**: Briefly inform the user what was updated
+1. **Update the PLAN**: Integrate the user's decision into the relevant section
+1. **Mark as confirmed**: Indicate that this decision is now user-validated
+1. **Save immediately**: Use Edit tool to update the PLAN file
+1. **Report the change**: Briefly inform the user what was updated
 
 ### Update Format Guidelines
 
-- Add clarifications inline where they relate to existing content
-- Create new sections if the answer reveals new components
+- Replace assumptions with confirmed decisions
+- Add user-provided details inline where relevant
 - Maintain consistent formatting with the existing PLAN structure
-- Optionally add a `## Clarifications` section at the end to track Q&A history
+- Optionally add a `## Confirmed Decisions` section to track validated items
 
 ## WORKFLOW
 
-### Phase 1: File Resolution and Validation
+### Phase 1: Load and Announce
 
 1. Resolve the file path according to TARGET FILE RESOLUTION
 1. Verify file existence and readability
 1. Read the entire PLAN file
-1. Display: "Analyzing PLAN file: [filename]..."
+1. Display: "Reviewing my PLAN to identify points that need your confirmation..."
 
-### Phase 2: Initial Analysis
+### Phase 2: Self-Critical Analysis
 
-1. Parse the PLAN structure
-1. Identify all sections and their contents
-1. Generate initial list of ambiguities and gaps (internal)
-1. Prioritize questions by impact
+1. Re-examine each section of the PLAN you created
+1. Identify assumptions you made
+1. List areas where you were uncertain
+1. Find decisions that should be validated by the user
+1. Prioritize by impact on implementation
 
-### Phase 3: Interview Loop
+### Phase 3: Clarification Loop
 
 ```
-WHILE (unresolved questions exist AND user chooses to continue):
-    1. Select the highest priority unasked question(s)
+WHILE (unvalidated assumptions or unclear points exist AND user chooses to continue):
+    1. Select the most impactful unconfirmed item(s)
     2. Present question(s) using AskUserQuestionTool
+       - Explain what you assumed and why
+       - Offer alternatives you considered
     3. Wait for user response
-    4. Parse the response
-    5. Update the PLAN file immediately
-    6. Re-analyze the updated PLAN to discover new questions
-    7. Ask user "Continue with more questions?" (if questions remain)
+    4. Update the PLAN file with the confirmed decision
+    5. Continue to next uncertain point
+    6. Ask user "Should I continue reviewing?" (if items remain)
 END WHILE
 ```
 
 ### Phase 4: Completion
 
-1. Display a summary of all changes made to the PLAN
-1. Show the final PLAN file location
-1. Suggest next steps (e.g., "Ready for implementation" or "Consider reviewing with your team")
+1. Summarize all confirmed decisions
+1. List any remaining assumptions (if user chose to stop early)
+1. Display: "PLAN review complete. [N] decisions confirmed with you."
 
 ## EDGE CASES
 
@@ -156,34 +169,32 @@ Please verify the path and try again.
 
 ### Empty PLAN file
 
-Suggest to the user:
+```md
+The PLAN file is empty. There is nothing to review.
+Please create a plan first, then run /ask-plan to review it.
+```
+
+### No clarification needed
+
+If the PLAN was created with explicit user input for all decisions:
 
 ```md
-The PLAN file is empty. Please choose from the following:
-1. Enter a project description to create a new plan
-2. Specify a different file
-3. Cancel
+I reviewed the PLAN and found no assumptions that need your confirmation.
+All decisions were based on explicit requirements you provided.
+The PLAN is ready for implementation.
 ```
 
 ### User chooses to stop early
 
-1. Confirm all changes so far have been saved
-1. Display the number of remaining unasked questions (if any)
-1. Show: "PLAN updated with [N] clarifications. [M] questions remain for future refinement."
-
-### No questions can be generated
-
-If the PLAN is sufficiently detailed:
-
-```md
-Analyzed the PLAN but found no points requiring clarification at this time.
-The PLAN appears ready for implementation.
-```
+1. Save all confirmed changes
+1. Display remaining unconfirmed assumptions count
+1. Show: "PLAN updated with [N] confirmed decisions. [M] assumptions remain unvalidated."
 
 ## CRITICAL RULES
 
 - Always use `AskUserQuestionTool` for questions (plain text questions are not allowed)
-- Update the PLAN file immediately after each answer (no batch updates)
-- Track what has been clarified to avoid redundant questions
-- Recognize when a user's answer addresses multiple potential questions
-- Respect user's time - if they seem fatigued, offer to save progress and continue later
+- Be honest about what you assumed vs. what the user explicitly stated
+- Update the PLAN file immediately after each confirmation
+- Do not ask about things the user already clearly specified
+- Prioritize questions that have the biggest impact on implementation success
+- Respect user's time - offer to continue or stop after each round of questions
